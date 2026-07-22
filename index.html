@@ -80,14 +80,14 @@
         <p class="eyebrow">How Can We Work Together?</p>
         <h2>Experience Breath of Life.</h2>
       </div>
-      <p class="lead">Every path is real. Many people walk more than one over time.</p>
+      <p class="lead">Your breath is the medicine. Your body is the alchemist. Every journey begins with a single breath. Explore the path that's right for you.</p>
     </div>
   </div>
   <div class="container">
     <div class="audience-grid audience-grid--7">
       <div class="audience-item">
         <span class="numeral">01</span>
-        <h3>Weekly Breathwork Journeys</h3>
+        <h3>Maui Breathwork Journeys</h3>
         <p>Join our Maui and Online community experiences.</p>
         <a href="journeys.html">Learn more <span class="arrow">→</span></a>
       </div>
@@ -173,9 +173,9 @@
     <div class="practice-head">
       <div>
         <p class="eyebrow">Ways to practice</p>
-        <h2>Six doors. One practice.</h2>
+        <h2>Six Pathways. One Practice.</h2>
       </div>
-      <p>From a free Friday evening on Maui to a five day immersion. Each door is whole on its own; many people move between them over a year.</p>
+      <p>Your breath is the medicine. Your body is the alchemist. Every offering is simply another doorway back to yourself. Begin wherever you're called.</p>
     </div>
 
     <div class="practice-grid">
@@ -184,7 +184,7 @@
           <img src="img/asset 19.jpeg" alt="Group practicing breathwork by the pool on the Maui deck" />
         </figure>
         <h3>Weekly Journeys</h3>
-        <p>Two evenings a week on Maui. Donation based. Open to first timers and seasoned practitioners. Always under the mango tree.</p>
+        <p>Two evenings a week on Maui. Contribution based. Open to first timers and seasoned practitioners. Outdoors in our open air sanctuary.</p>
         <div class="card-foot">
           <a href="journeys.html">RSVP for this Friday <span class="arrow">→</span></a>
         </div>
@@ -317,9 +317,9 @@
     <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:48px;align-items:end;">
       <div>
         <p class="eyebrow">Stories from the circle</p>
-        <h2>What changes, when it changes.</h2>
+        <h2>Real Stories. Real Transformations.</h2>
       </div>
-      <p class="lead">Three voices, three different starting points. None of them planned to write a testimonial. They wrote anyway.</p>
+      <p class="lead">Healing always starts on the inside. Here is what happened when these members participants trusted the process.</p>
     </div>
     <div class="stories-grid">
       <div class="story story--video">
@@ -354,10 +354,42 @@
       <p class="eyebrow">Free practice</p>
       <h2>Try the 15 minute Breath of Life practice.</h2>
       <p>No card. No app. Sent to your inbox with a link to the guided audio on Apple Music. Made for the in-between moments.</p>
-      <form class="lead-form" onsubmit="event.preventDefault();">
-        <input type="email" placeholder="you@email.com" aria-label="Email address" />
-        <button class="btn" type="submit">Send it <span class="arrow">→</span></button>
+      <form class="lead-form" id="practiceForm">
+        <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required />
+        <button class="btn" type="submit" id="practiceBtn">Send it <span class="arrow">→</span></button>
       </form>
+      <p id="practiceMsg" style="display:none;margin-top:14px;font-size:14px;"></p>
+      <script>
+        document.getElementById('practiceForm').addEventListener('submit', async function(e) {
+          e.preventDefault();
+          var btn = document.getElementById('practiceBtn');
+          var msg = document.getElementById('practiceMsg');
+          var email = this.email.value;
+          btn.disabled = true;
+          btn.textContent = 'Sending…';
+          try {
+            var res = await fetch('/api/subscribe', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email: email })
+            });
+            if (res.ok) {
+              msg.textContent = 'Check your inbox — the practice is on its way.';
+              msg.style.color = '#2a7a2a';
+              this.reset();
+            } else {
+              msg.textContent = 'Something went wrong. Please try again.';
+              msg.style.color = '#c0392b';
+            }
+          } catch(err) {
+            msg.textContent = 'Something went wrong. Please try again.';
+            msg.style.color = '#c0392b';
+          }
+          msg.style.display = 'block';
+          btn.disabled = false;
+          btn.innerHTML = 'Send it <span class="arrow">→</span>';
+        });
+      </script>
     </div>
   </div>
 </section>
